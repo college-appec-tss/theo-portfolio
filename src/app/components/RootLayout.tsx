@@ -1,17 +1,25 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { InstagramMessageButton } from './InstagramMessageButton';
+import LoadingScreen from './LoadingScreen';
+import ModernHeader from './ModernHeader';
+import FloatingMessageButton from './FloatingMessageButton';
 
 export function RootLayout() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-      <InstagramMessageButton />
-    </div>
+    <>
+      {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
+      
+      {!isLoading && (
+        <div className="min-h-screen">
+          <ModernHeader />
+          <main>
+            <Outlet />
+          </main>
+          <FloatingMessageButton />
+        </div>
+      )}
+    </>
   );
 }
