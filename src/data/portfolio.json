@@ -1,0 +1,168 @@
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Sarah Johnson",
+      "role": "Product Manager at TechCorp",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+      "content": "Theo delivered an exceptional web application that exceeded our expectations. His attention to detail and ability to translate requirements into clean, efficient code is remarkable. Highly recommended!",
+      "rating": 5,
+      "date": "2024-12-15",
+      "project": "E-commerce Platform"
+    },
+    {
+      "id": 2,
+      "name": "Michael Chen",
+      "role": "CEO at StartupHub",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
+      "content": "Working with Theo was a pleasure. He transformed our vision into a beautiful, functional website. His creativity and technical expertise brought our project to life ahead of schedule.",
+      "rating": 5,
+      "date": "2024-11-20",
+      "project": "Startup Landing Page"
+    },
+    {
+      "id": 3,
+      "name": "Emmanuel Rwema",
+      "role": "Director at College APPEC",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emmanuel",
+      "content": "Theo is one of the most dedicated students I've had the pleasure to teach. His problem-solving abilities and eagerness to learn new technologies make him stand out.",
+      "rating": 5,
+      "date": "2024-10-05",
+      "project": "Academic Project"
+    },
+    {
+      "id": 4,
+      "name": "Demo User",
+      "role": "Demo Client",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Demo",
+      "content": "This is a demo testimonial showcasing the testimonial component. In a real project, this would be replaced with actual client feedback. The design demonstrates how testimonials appear in the portfolio.",
+      "rating": 4,
+      "date": "2024-09-01",
+      "project": "Demo Project"
+    }
+  ],
+  "skills": [
+    {
+      "name": "React",
+      "category": "Frontend",
+      "level": 90,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+    },
+    {
+      "name": "TypeScript",
+      "category": "Frontend",
+      "level": 85,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+    },
+    {
+      "name": "JavaScript",
+      "category": "Frontend",
+      "level": 95,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+    },
+    {
+      "name": "HTML/CSS",
+      "category": "Frontend",
+      "level": 95,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+    },
+    {
+      "name": "Tailwind CSS",
+      "category": "Frontend",
+      "level": 90,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
+    },
+    {
+      "name": "Node.js",
+      "category": "Backend",
+      "level": 80,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+    },
+    {
+      "name": "Python",
+      "category": "Backend",
+      "level": 75,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+    },
+    {
+      "name": "Git",
+      "category": "Tools",
+      "level": 85,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+    },
+    {
+      "name": "Figma",
+      "category": "Design",
+      "level": 70,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+    },
+    {
+      "name": "SQL",
+      "category": "Backend",
+      "level": 75,
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "E-Commerce Platform",
+      "description": "A full-featured online shopping platform with cart functionality, user authentication, payment integration, and admin dashboard.",
+      "technologies": ["React", "TypeScript", "Node.js", "MongoDB"],
+      "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/ecommerce",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Portfolio Website",
+      "description": "Personal portfolio website showcasing projects, skills, and contact information with modern animations and responsive design.",
+      "technologies": ["React", "Tailwind CSS", "Framer Motion"],
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/portfolio",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "title": "Task Management App",
+      "description": "Collaborative task management application with real-time updates, drag-and-drop kanban boards, and team collaboration features.",
+      "technologies": ["React", "Node.js", "Socket.io", "PostgreSQL"],
+      "image": "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/taskmanager",
+      "featured": true
+    },
+    {
+      "id": 4,
+      "title": "Weather Dashboard",
+      "description": "Weather application displaying current conditions and forecasts with beautiful visualizations and location-based updates.",
+      "technologies": ["JavaScript", "OpenWeather API", "CSS3"],
+      "image": "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/weather",
+      "featured": false
+    },
+    {
+      "id": 5,
+      "title": "Chat Application",
+      "description": "Real-time chat application with private messaging, group chats, and file sharing capabilities.",
+      "technologies": ["React", "Socket.io", "Express", "MongoDB"],
+      "image": "https://images.unsplash.com/photo-1611746872915-64382b5b9208?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/chatapp",
+      "featured": false
+    },
+    {
+      "id": 6,
+      "title": "Blog Platform",
+      "description": "Content management system for blogging with markdown support, categories, tags, and SEO optimization.",
+      "technologies": ["React", "Next.js", "Prisma", "PostgreSQL"],
+      "image": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800",
+      "link": "#",
+      "github": "https://github.com/theoneste/blog",
+      "featured": false
+    }
+  ]
+}

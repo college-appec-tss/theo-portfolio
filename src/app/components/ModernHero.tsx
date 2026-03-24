@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Instagram, Twitter, ChevronDown } from 'lucide-react';
+import { useTheme } from './ThemeContext';
 
 export default function ModernHero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -14,7 +17,13 @@ export default function ModernHero() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Theme-aware glow colors
+  const glowColor = theme === 'dark' 
+    ? 'rgba(255, 255, 255, 0.1)'
+    : 'rgba(34, 197, 94, 0.15)'; // Green glow for light mode
+
   const scrollToNext = () => {
+    // If we're on home page, scroll to about section, otherwise go to next page
     window.scrollTo({
       top: window.innerHeight,
       behavior: 'smooth'
@@ -30,19 +39,20 @@ export default function ModernHero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-gradient-dark grid-pattern">
-      {/* Mouse Glow Effect */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden neon-mesh-bg grid-pattern">
+      {/* Mouse Glow Effect - Sun-like */}
       <motion.div
         className="pointer-events-none fixed inset-0 z-10"
         animate={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 255, 255, 0.1), transparent 40%)`
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, ${glowColor}, transparent 40%)`
         }}
         transition={{ type: "tween", ease: "linear", duration: 0 }}
       />
 
       {/* Floating Gradient Shapes */}
       <motion.div
-        className="absolute top-20 left-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl"
+        className="absolute top-20 left-20 w-72 h-72 rounded-full blur-3xl"
+        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)' }}
         animate={{
           y: [0, -30, 0],
           x: [0, 20, 0],
@@ -54,7 +64,8 @@ export default function ModernHero() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl"
+        className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl"
+        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(34, 197, 94, 0.08)' }}
         animate={{
           y: [0, 30, 0],
           x: [0, -20, 0],
@@ -66,7 +77,8 @@ export default function ModernHero() {
         }}
       />
       <motion.div
-        className="absolute top-1/2 left-1/2 w-64 h-64 bg-green-500/20 rounded-full blur-3xl"
+        className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full blur-3xl"
+        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(34, 197, 94, 0.05)' }}
         animate={{
           scale: [1, 1.2, 1],
           rotate: [0, 180, 360],
@@ -80,22 +92,18 @@ export default function ModernHero() {
 
       {/* Content */}
       <div className="relative z-20 max-w-6xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <div className="animate__animated animate__rubberBand">
           <motion.h1 
-            className="heading-xl text-white mb-6"
+            className="heading-xl mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Hi, I'm <span className="gradient-text-green">Theonest</span> 👋
+            Hi, I'm <span className="neon-text-subtle">Theo Dev</span> 👋
           </motion.h1>
 
           <motion.p
-            className="text-2xl md:text-3xl text-white/80 mb-8 font-light"
+            className="text-2xl md:text-3xl mb-8 font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -109,22 +117,23 @@ export default function ModernHero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            <motion.a
-              href="#projects"
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-[#22C55E] to-[#16a34a] text-white font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
+            <motion.div
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-[#22C55E] to-[#16a34a] text-white font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={scrollToNext}
             >
               View Projects
-            </motion.a>
-            <motion.a
-              href="#about"
-              className="px-8 py-4 rounded-full glass-dark text-white font-semibold hover:bg-white/20 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Discover My Story
-            </motion.a>
+            </motion.div>
+            <Link to="/about">
+              <motion.div
+                className="px-8 py-4 rounded-full glass-dark text-white font-semibold hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Discover My Story
+              </motion.div>
+            </Link>
           </motion.div>
 
           {/* Social Media Icons */}
@@ -154,7 +163,7 @@ export default function ModernHero() {
               </motion.a>
             ))}
           </motion.div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll Indicator */}

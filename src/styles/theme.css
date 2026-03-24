@@ -25,10 +25,18 @@
     --glass-blur: blur(10px);
   }
 
+  /* Default Dark Mode */
   body {
+    background-color: #0F172A;
+    color: white;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Light Mode */
+  .light body {
     background-color: #f8f9fa;
     color: #0F172A;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Smooth Scrolling */
@@ -70,18 +78,20 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Mesh Gradient Background */
-.mesh-gradient {
-  background: 
-    radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.3) 0px, transparent 50%),
-    radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.3) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, rgba(34, 197, 94, 0.2) 0px, transparent 50%),
-    radial-gradient(at 100% 50%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.3) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(168, 85, 247, 0.3) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.3) 0px, transparent 50%);
-  background-color: #f8f9fa;
+/* Animated Mesh Gradient Background */
+@keyframes meshMove {
+  0%, 100% {
+    background-position: 0% 0%, 50% 50%, 100% 0%, 0% 50%, 100% 50%, 0% 100%, 50% 100%, 100% 100%;
+  }
+  25% {
+    background-position: 50% 25%, 25% 75%, 75% 25%, 25% 25%, 75% 75%, 25% 75%, 50% 50%, 75% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 50% 100%, 0% 50%, 50% 75%, 0% 25%, 50% 25%, 100% 75%, 0% 50%;
+  }
+  75% {
+    background-position: 50% 75%, 75% 25%, 25% 75%, 75% 50%, 25% 50%, 75% 100%, 50% 25%, 25% 75%;
+  }
 }
 
 .mesh-gradient-dark {
@@ -95,6 +105,174 @@
     radial-gradient(at 50% 100%, rgba(168, 85, 247, 0.4) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.4) 0px, transparent 50%);
   background-color: #0F172A;
+}
+
+/* Light Mode Mesh Gradient - Subtle black/gray */
+.light .neon-mesh-bg {
+  background: 
+    radial-gradient(at 0% 0%, rgba(0, 0, 0, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, rgba(0, 0, 0, 0.06) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(0, 0, 0, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(0, 0, 0, 0.04) 0px, transparent 50%),
+    radial-gradient(at 100% 50%, rgba(0, 0, 0, 0.03) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(0, 0, 0, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(0, 0, 0, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 0, 0, 0.04) 0px, transparent 50%);
+  background-color: #f8f9fa;
+  background-size: 200% 200%;
+  animation: meshMove 20s ease infinite;
+}
+
+/* Dark Mode - Green accent mesh */
+.neon-mesh-bg {
+  background: 
+    radial-gradient(at 0% 0%, rgba(34, 197, 94, 0.3) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, rgba(34, 197, 94, 0.25) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(34, 197, 94, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(34, 197, 94, 0.25) 0px, transparent 50%),
+    radial-gradient(at 100% 50%, rgba(34, 197, 94, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(34, 197, 94, 0.25) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(34, 197, 94, 0.3) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.2) 0px, transparent 50%);
+  background-color: #0F172A;
+  background-size: 200% 200%;
+  animation: meshMove 15s ease infinite;
+}
+
+/* Light Mode Grid Pattern */
+.light .grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Light Mode Glass */
+.light .glass-dark {
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light .glass {
+  background: rgba(15, 23, 42, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Light Mode Text */
+.light .text-white {
+  color: #0F172A;
+}
+
+.light .text-white\/80 {
+  color: rgba(15, 23, 42, 0.8);
+}
+
+.light .text-white\/60 {
+  color: rgba(15, 23, 42, 0.6);
+}
+
+/* Light Mode Neon Text */
+.light .neon-text {
+  color: #0F172A;
+  text-shadow: 
+    0 0 5px rgba(168, 85, 247, 0.8),
+    0 0 10px rgba(59, 130, 246, 0.6),
+    0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+/* Light Mode Glow Effects */
+.light .glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.light .glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.light .glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+/* Default Text Colors (Dark Mode) */
+.text-white {
+  color: white;
+}
+
+.text-white\/80 {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.text-white\/60 {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Neon Glow Text */
+.neon-text {
+  color: white;
+  text-shadow: 
+    0 0 5px rgba(255, 255, 255, 0.8),
+    0 0 10px rgba(255, 255, 255, 0.6),
+    0 0 20px rgba(168, 85, 247, 0.8),
+    0 0 40px rgba(59, 130, 246, 0.6),
+    0 0 80px rgba(6, 182, 212, 0.4);
+  animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+/* Subtle Neon Text (for name) */
+.neon-text-subtle {
+  color: white;
+  text-shadow: 
+    0 0 3px rgba(168, 85, 247, 0.4),
+    0 0 6px rgba(59, 130, 246, 0.3),
+    0 0 10px rgba(6, 182, 212, 0.2);
+  animation: subtleNeonPulse 3s ease-in-out infinite alternate;
+}
+
+/* Light Mode Subtle Neon */
+.light .neon-text-subtle {
+  color: #0F172A;
+  text-shadow: 
+    0 0 3px rgba(168, 85, 247, 0.3),
+    0 0 6px rgba(59, 130, 246, 0.2),
+    0 0 10px rgba(6, 182, 212, 0.1);
+}
+
+@keyframes subtleNeonPulse {
+  0% {
+    text-shadow: 
+      0 0 3px rgba(168, 85, 247, 0.4),
+      0 0 6px rgba(59, 130, 246, 0.3),
+      0 0 10px rgba(6, 182, 212, 0.2);
+  }
+  100% {
+    text-shadow: 
+      0 0 5px rgba(168, 85, 247, 0.6),
+      0 0 10px rgba(59, 130, 246, 0.4),
+      0 0 15px rgba(6, 182, 212, 0.3);
+  }
+}
+
+@keyframes neonPulse {
+  0% {
+    text-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.8),
+      0 0 10px rgba(255, 255, 255, 0.6),
+      0 0 20px rgba(168, 85, 247, 0.8),
+      0 0 40px rgba(59, 130, 246, 0.6),
+      0 0 80px rgba(6, 182, 212, 0.4);
+  }
+  100% {
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 1),
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(168, 85, 247, 1),
+      0 0 80px rgba(59, 130, 246, 0.8),
+      0 0 120px rgba(6, 182, 212, 0.6);
+  }
 }
 
 /* Grid Pattern */
@@ -208,6 +386,35 @@
 
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* CSS Loader Animation */
+.loader {
+  width: 90px;
+  height: 14px;
+  --c: #22C55E 92%, #0000;
+  background: 
+    radial-gradient(circle 7px at bottom, var(--c)) 0 0,
+    radial-gradient(circle 7px at top, var(--c)) 0 100%;
+  background-size: calc(100% / 4) 50%;
+  background-repeat: repeat-x;
+  animation: l11 1s infinite;
+}
+
+@keyframes l11 {
+  80%, 100% {
+    background-position: calc(100% / 3) 0, calc(100% / -3) 100%;
+  }
+}
+
+/* Slow spin animation */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
 }
 
 /* Underline Hover Effect */

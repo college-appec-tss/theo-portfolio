@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTheme } from './ThemeContext';
 
 export default function ModernHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -46,7 +48,7 @@ export default function ModernHeader() {
               <Link
                 key={item.path}
                 to={item.path}
-                className="relative text-white/80 hover:text-white transition-colors duration-300"
+                className="relative hover:text-white transition-colors duration-300"
               >
                 <span className="hover-underline">{item.name}</span>
                 {isActive(item.path) && (
@@ -60,14 +62,49 @@ export default function ModernHeader() {
           </div>
 
           {/* CTA Button */}
-          <motion.a
-            href="#contact"
-            className="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-[#22C55E] to-[#16a34a] text-white font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Hire Me
-          </motion.a>
+          <div className="hidden md:flex items-center gap-4">
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2 rounded-full glass-dark text-white hover:bg-white/20 transition-all duration-300"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              <AnimatePresence mode="wait">
+                {theme === 'dark' ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
+            <motion.a
+              href="#contact"
+              className="px-6 py-2 rounded-full bg-gradient-to-r from-[#22C55E] to-[#16a34a] text-white font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Hire Me
+            </motion.a>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -95,7 +132,7 @@ export default function ModernHeader() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-white/80 hover:text-white transition-colors duration-300 py-2 ${
+                    className={`transition-colors duration-300 py-2 ${
                       isActive(item.path) ? 'text-[#22C55E]' : ''
                     }`}
                   >

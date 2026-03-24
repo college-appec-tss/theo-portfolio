@@ -19,4 +19,36 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  // Build optimization
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router'],
+          motion: ['framer-motion'],
+          lucide: ['lucide-react'],
+        },
+      },
+    },
+  },
+
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router', 'framer-motion', 'lucide-react'],
+  },
+
+  // Server configuration
+  server: {
+    port: 5173,
+    host: true,
+  },
+
+  // Preview configuration
+  preview: {
+    port: 4173,
+    host: true,
+  },
 })
