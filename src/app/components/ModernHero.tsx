@@ -1,29 +1,153 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Instagram, Twitter, ChevronDown } from 'lucide-react';
 import { useTheme } from './ThemeContext';
 
+interface Star {
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  brightness: number;
+}
+
 export default function ModernHero() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
+  const mousePos = useRef({ x: 0, y: 0 });
+  const starsRef = useRef<Star[]>([]);
+  const animationRef = useRef<number>();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    setMounted(true);
   }, []);
 
-  // Theme-aware glow colors
-  const glowColor = theme === 'dark' 
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(34, 197, 94, 0.15)'; // Green glow for light mode
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Initialize stars
+    const initStars = () => {
+      const stars: Star[] = [];
+      const numStars = 200;
+      
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width - canvas.width / 2,
+          y: Math.random() * canvas.height - canvas.height / 2,
+          z: Math.random() * canvas.width,
+          size: Math.random() * 2 + 0.5,
+          brightness: Math.random() * 0.5 + 0.5,
+        });
+      }
+      starsRef.current = stars;
+    };
+    initStars();
+
+    // Animation loop
+    const animate = () => {
+      if (!ctx || !canvas) return;
+      
+      // Theme-aware background colors
+      const isDark = theme === 'dark';
+      const bgColor = isDark ? 'rgba(15, 23, 42, 0.3)' : 'rgba(248, 249, 250, 0.3)';
+      const starColor = isDark ? '255, 255, 255' : '15, 23, 42';
+      const glowColor = isDark ? '34, 197, 94' : '30, 64, 175';
+      
+      // Clear canvas with fade effect for trails
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      // Mouse influence
+      const mouseX = (mousePos.current.x - centerX) * 0.5;
+      const mouseY = (mousePos.current.y - centerY) * 0.5;
+
+      // Update and draw stars
+      starsRef.current.forEach((star) => {
+        // Update star position (rotation + mouse influence)
+        star.z -= 2;
+        
+        if (star.z <= 0) {
+          star.z = canvas.width;
+          star.x = Math.random() * canvas.width - canvas.width / 2;
+          star.y = Math.random() * canvas.height - canvas.height / 2;
+        }
+
+        // Calculate 3D to 2D projection
+        const fov = canvas.width / 2;
+        const scale = fov / (fov + star.z);
+        const x2d = star.x * scale + centerX + mouseX * (1 - scale);
+        const y2d = star.y * scale + centerY + mouseY * (1 - scale);
+
+        // Skip if outside canvas
+        if (x2d < 0 || x2d > canvas.width || y2d < 0 || y2d > canvas.height) return;
+
+        // Calculate brightness based on depth and mouse proximity
+        const mouseDist = Math.sqrt(
+          Math.pow(mousePos.current.x - x2d, 2) + 
+          Math.pow(mousePos.current.y - y2d, 2)
+        );
+        const mouseGlow = Math.max(0, 1 - mouseDist / 200);
+        
+        // Adjust brightness for light mode (dimmer)
+        const baseBrightness = isDark ? star.brightness : star.brightness * 0.4;
+        const finalBrightness = baseBrightness * scale + mouseGlow * (isDark ? 0.3 : 0.15);
+
+        // Draw star glow
+        const gradient = ctx.createRadialGradient(x2d, y2d, 0, x2d, y2d, star.size * 3 * scale);
+        gradient.addColorStop(0, `rgba(${starColor}, ${finalBrightness})`);
+        gradient.addColorStop(0.3, `rgba(${glowColor}, ${finalBrightness * 0.5})`);
+        gradient.addColorStop(1, `rgba(${glowColor}, 0)`);
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x2d, y2d, star.size * 3 * scale, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw star core
+        ctx.fillStyle = `rgba(${starColor}, ${finalBrightness})`;
+        ctx.beginPath();
+        ctx.arc(x2d, y2d, star.size * scale, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    // Mouse move handler
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePos.current = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [theme]);
 
   const scrollToNext = () => {
-    // If we're on home page, scroll to about section, otherwise go to next page
     window.scrollTo({
       top: window.innerHeight,
       behavior: 'smooth'
@@ -38,21 +162,27 @@ export default function ModernHero() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Get theme-aware background
+  const canvasBg = mounted && theme === 'dark' 
+    ? 'linear-gradient(to bottom, #0F172A, #1E293B)'
+    : 'linear-gradient(to bottom, #F8F9FA, #E9ECEF)';
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden neon-mesh-bg grid-pattern">
-      {/* Mouse Glow Effect - Sun-like */}
-      <motion.div
-        className="pointer-events-none fixed inset-0 z-10"
-        animate={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, ${glowColor}, transparent 40%)`
-        }}
-        transition={{ type: "tween", ease: "linear", duration: 0 }}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Star Field Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 z-0"
+        style={{ background: canvasBg }}
       />
 
-      {/* Floating Gradient Shapes */}
+      {/* Subtle mesh overlay */}
+      <div className={`absolute inset-0 z-10 neon-mesh-bg ${theme === 'light' ? 'opacity-30' : 'opacity-50'}`}></div>
+
+      {/* Floating Gradient Shapes for atmosphere */}
       <motion.div
         className="absolute top-20 left-20 w-72 h-72 rounded-full blur-3xl"
-        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)' }}
+        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(30, 64, 175, 0.08)' }}
         animate={{
           y: [0, -30, 0],
           x: [0, 20, 0],
@@ -65,7 +195,7 @@ export default function ModernHero() {
       />
       <motion.div
         className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl"
-        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(34, 197, 94, 0.08)' }}
+        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.08)' : 'rgba(30, 64, 175, 0.05)' }}
         animate={{
           y: [0, 30, 0],
           x: [0, -20, 0],
@@ -74,19 +204,6 @@ export default function ModernHero() {
           duration: 10,
           repeat: Infinity,
           ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full blur-3xl"
-        style={{ background: theme === 'dark' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(34, 197, 94, 0.05)' }}
-        animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, 180, 360],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "linear"
         }}
       />
 

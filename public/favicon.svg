@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle (Green 60%) -->
+  <circle cx="32" cy="32" r="32" fill="#2ECC71"/>
+
+  <!-- TD Monogram Handwritten Style -->
+  <text x="30" y="40" font-family="'Brush Script MT', cursive" font-size="28" fill="#FFFFFF" text-anchor="middle" font-weight="bold">
+    TD
+  </text>
+</svg>
